@@ -393,6 +393,12 @@ DEFINE DTC_BIN                 = ENV(DTC_PREFIX)dtc
 #                             Required to build platforms or ACPI tables:
 #                               Intel(r) ACPI Compiler from
 #                               https://acpica.org/downloads
+#   GCC49xASL   -Windows-  Requires:
+#                             GCC 4.9 targeting arm-none-eabi
+#                        Optional:
+#                             Required to build platforms or ACPI tables:
+#                               Microsoft ASL ACPI Compiler (asl.exe) from Windows WDK
+#                               https://docs.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk
 #   GCC5        -Linux,Windows-  Requires:
 #                             GCC 5 with LTO support, targeting x86_64-linux-gnu, aarch64-linux-gnu, or arm-linux-gnueabi
 #                        Optional:
@@ -5465,6 +5471,61 @@ RELEASE_GCC49_AARCH64_DLINK_FLAGS  = DEF(GCC49_AARCH64_DLINK_FLAGS)
   NOOPT_GCC49_AARCH64_CC_FLAGS     = DEF(GCC49_AARCH64_CC_FLAGS) -O0 -mcmodel=small
   NOOPT_GCC49_AARCH64_DLINK_FLAGS  = DEF(GCC49_AARCH64_DLINK_FLAGS) -z common-page-size=0x1000 -O0
   NOOPT_GCC49_AARCH64_DLINK_XIPFLAGS = -z common-page-size=0x20 -O0
+
+####################################################################################
+#
+# GCC49xASL - This configuration is used to compile under Windows to produce
+#           PE/COFF binaries using GCC 4.9.
+#
+####################################################################################
+*_GCC49xASL_*_*_FAMILY               = GCC
+
+*_GCC49xASL_*_MAKE_PATH                    = DEF(GCC_HOST_PREFIX)make
+*_GCC49xASL_*_*_DLL                        = ENV(GCC49_DLL)
+*_GCC49xASL_*_ASL_PATH                     = DEF(WIN_ASL_BIN)
+
+*_GCC49xASL_*_PP_FLAGS                     = DEF(GCC_PP_FLAGS)
+*_GCC49xASL_*_ASLPP_FLAGS                  = DEF(GCC_ASLPP_FLAGS)
+*_GCC49xASL_*_ASLCC_FLAGS                  = DEF(GCC_ASLCC_FLAGS)
+*_GCC49xASL_*_VFRPP_FLAGS                  = DEF(GCC_VFRPP_FLAGS)
+*_GCC49xASL_*_APP_FLAGS                    =
+*_GCC49xASL_*_ASL_FLAGS                    = /MsftInternal
+*_GCC49xASL_*_ASL_OUTFLAGS                 = DEF(MS_ASL_OUTFLAGS)
+
+##################
+# GCC49xASL ARM definitions
+##################
+*_GCC49xASL_ARM_OBJCOPY_PATH         = noop
+*_GCC49xASL_ARM_CC_PATH              = ENV(GCC49_ARM_PREFIX)gcc
+*_GCC49xASL_ARM_SLINK_PATH           = ENV(GCC49_ARM_PREFIX)ar
+*_GCC49xASL_ARM_DLINK_PATH           = ENV(GCC49_ARM_PREFIX)gcc
+*_GCC49xASL_ARM_ASLDLINK_PATH        = ENV(GCC49_ARM_PREFIX)gcc
+*_GCC49xASL_ARM_ASM_PATH             = ENV(GCC49_ARM_PREFIX)gcc
+*_GCC49xASL_ARM_PP_PATH              = ENV(GCC49_ARM_PREFIX)gcc
+*_GCC49xASL_ARM_VFRPP_PATH           = ENV(GCC49_ARM_PREFIX)gcc
+*_GCC49xASL_ARM_ASLCC_PATH           = ENV(GCC49_ARM_PREFIX)gcc
+*_GCC49xASL_ARM_ASLPP_PATH           = ENV(GCC49_ARM_PREFIX)gcc
+*_GCC49xASL_ARM_RC_PATH              = ENV(GCC49_ARM_PREFIX)objcopy
+*_GCC49xASL_ARM_SYMRENAME_PATH       = noop
+
+*_GCC49xASL_ARM_ARCHCC_FLAGS         = -mthumb
+*_GCC49xASL_ARM_PLATFORM_FLAGS       = -march=armv7-a
+
+*_GCC49xASL_ARM_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS)
+*_GCC49xASL_ARM_ASLDLINK_FLAGS       = DEF(GCC49_ARM_ASLDLINK_FLAGS)
+*_GCC49xASL_ARM_ASM_FLAGS            = DEF(GCC49_ARM_ASM_FLAGS)
+*_GCC49xASL_ARM_DLINK_FLAGS          = DEF(GCC49_ARM_DLINK_FLAGS)
+*_GCC49xASL_ARM_DLINK2_FLAGS         = DEF(GCC49_ARM_DLINK2_FLAGS)
+*_GCC49xASL_ARM_DTCPP_FLAGS          = DEF(GCC_DTCPP_FLAGS)
+*_GCC49xASL_ARM_PLATFORM_FLAGS       = -march=armv7-a
+*_GCC49xASL_ARM_PP_FLAGS             = $(ARCHCC_FLAGS) $(PLATFORM_FLAGS) DEF(GCC_PP_FLAGS)
+*_GCC49xASL_ARM_RC_FLAGS             = DEF(GCC_ARM_RC_FLAGS)
+*_GCC49xASL_ARM_VFRPP_FLAGS          = $(ARCHCC_FLAGS) $(PLATFORM_FLAGS) DEF(GCC_VFRPP_FLAGS)
+*_GCC49xASL_ARM_CC_XIPFLAGS          = DEF(GCC49_ARM_CC_XIPFLAGS)
+
+  DEBUG_GCC49xASL_ARM_CC_FLAGS       = DEF(GCC49_ARM_CC_FLAGS) -O0
+RELEASE_GCC49xASL_ARM_CC_FLAGS       = DEF(GCC49_ARM_CC_FLAGS) -Wno-unused-but-set-variable -Wno-unused-const-variable
+  NOOPT_GCC49xASL_ARM_CC_FLAGS       = DEF(GCC49_ARM_CC_FLAGS) -O0
 
 ####################################################################################
 #
