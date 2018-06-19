@@ -5468,6 +5468,61 @@ RELEASE_GCC49_AARCH64_DLINK_FLAGS  = DEF(GCC49_AARCH64_DLINK_FLAGS)
 
 ####################################################################################
 #
+# WINGCC 4.9 - This configuration is used to compile under Windows to produce
+#           PE/COFF binaries using GCC 4.9.
+#
+####################################################################################
+*_WINGCC49_*_*_FAMILY               = GCC
+
+*_WINGCC49_*_MAKE_PATH                    = DEF(GCC_HOST_PREFIX)make
+*_WINGCC49_*_*_DLL                        = ENV(GCC49_DLL)
+*_WINGCC49_*_ASL_PATH                     = asl.exe
+
+*_WINGCC49_*_PP_FLAGS                     = DEF(GCC_PP_FLAGS)
+*_WINGCC49_*_ASLPP_FLAGS                  = DEF(GCC_ASLPP_FLAGS)
+*_WINGCC49_*_ASLCC_FLAGS                  = DEF(GCC_ASLCC_FLAGS)
+*_WINGCC49_*_VFRPP_FLAGS                  = DEF(GCC_VFRPP_FLAGS)
+*_WINGCC49_*_APP_FLAGS                    =
+*_WINGCC49_*_ASL_FLAGS                    = /MsftInternal
+*_WINGCC49_*_ASL_OUTFLAGS                 = DEF(MS_ASL_OUTFLAGS)
+
+##################
+# WINGCC49 ARM definitions
+##################
+*_WINGCC49_ARM_OBJCOPY_PATH         = noop
+*_WINGCC49_ARM_CC_PATH              = ENV(WINGCC49_ARM_PREFIX)gcc
+*_WINGCC49_ARM_SLINK_PATH           = ENV(WINGCC49_ARM_PREFIX)ar
+*_WINGCC49_ARM_DLINK_PATH           = ENV(WINGCC49_ARM_PREFIX)gcc
+*_WINGCC49_ARM_ASLDLINK_PATH        = ENV(WINGCC49_ARM_PREFIX)gcc
+*_WINGCC49_ARM_ASM_PATH             = ENV(WINGCC49_ARM_PREFIX)gcc
+*_WINGCC49_ARM_PP_PATH              = ENV(WINGCC49_ARM_PREFIX)gcc
+*_WINGCC49_ARM_VFRPP_PATH           = ENV(WINGCC49_ARM_PREFIX)gcc
+*_WINGCC49_ARM_ASLCC_PATH           = ENV(WINGCC49_ARM_PREFIX)gcc
+*_WINGCC49_ARM_ASLPP_PATH           = ENV(WINGCC49_ARM_PREFIX)gcc
+*_WINGCC49_ARM_RC_PATH              = ENV(WINGCC49_ARM_PREFIX)objcopy
+*_WINGCC49_ARM_SYMRENAME_PATH       = noop
+
+*_WINGCC49_ARM_ARCHCC_FLAGS         = -mthumb
+*_WINGCC49_ARM_PLATFORM_FLAGS       = -march=armv7-a
+
+*_WINGCC49_ARM_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS)
+*_WINGCC49_ARM_ASLDLINK_FLAGS       = DEF(GCC49_ARM_ASLDLINK_FLAGS)
+*_WINGCC49_ARM_ASM_FLAGS            = DEF(GCC49_ARM_ASM_FLAGS)
+*_WINGCC49_ARM_DLINK_FLAGS          = DEF(GCC49_ARM_DLINK_FLAGS)
+*_WINGCC49_ARM_DLINK2_FLAGS         = DEF(GCC49_ARM_DLINK2_FLAGS)
+*_WINGCC49_ARM_DTCPP_FLAGS          = DEF(GCC_DTCPP_FLAGS)
+*_WINGCC49_ARM_PLATFORM_FLAGS       = -march=armv7-a
+*_WINGCC49_ARM_PP_FLAGS             = $(ARCHCC_FLAGS) $(PLATFORM_FLAGS) DEF(GCC_PP_FLAGS)
+*_WINGCC49_ARM_RC_FLAGS             = DEF(GCC_ARM_RC_FLAGS)
+*_WINGCC49_ARM_VFRPP_FLAGS          = $(ARCHCC_FLAGS) $(PLATFORM_FLAGS) DEF(GCC_VFRPP_FLAGS)
+*_WINGCC49_ARM_CC_XIPFLAGS          = DEF(GCC49_ARM_CC_XIPFLAGS)
+
+  DEBUG_WINGCC49_ARM_CC_FLAGS       = DEF(GCC49_ARM_CC_FLAGS) -O0
+RELEASE_WINGCC49_ARM_CC_FLAGS       = DEF(GCC49_ARM_CC_FLAGS) -Wno-unused-but-set-variable -Wno-unused-const-variable
+  NOOPT_WINGCC49_ARM_CC_FLAGS       = DEF(GCC49_ARM_CC_FLAGS) -O0
+
+####################################################################################
+#
 # GCC 5 - This configuration is used to compile under Linux to produce
 #         PE/COFF binaries using GCC 5
 #
